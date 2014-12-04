@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<talksori_log id="20141015_093128" date="2014-10-15" system_id="clean" category="cook" start="09:31:28" elapsed="317.56">
+  <user name="김슬기" age="29" gender="female" />
+  <wizard name="장호군" age="26" gender="male" />
+  <turn idx="1" state="">
+    <system start="3.63" end="3.63" dialog="가지고 있는 재료 또는 원하시는 요리명을 말씀해주세요.;">
+      <transcript>가지고 있는 재료 또는 원하시는 요리명을 말씀해주세요.</transcript>
+      <system_response type="qry">
+        <domain>Cook</domain>
+        <dialogue_act />
+        <speech_act />
+        <predicator />
+        <args />
+      </system_response>
+      <act_tag>material_start()</act_tag>
+    </system>
+    <user start="19.45" end="23.23" audio_file="20141015_093128_김슬기_F29\김슬기_001_166185.wav" understanding="full">
+      <recognized />
+      <hypothesis />
+      <transcript>치즈 케이크 한 번 만들어 볼래</transcript>
+      <user_intention>
+        <speech_act />
+        <predicator />
+        <args />
+      </user_intention>
+      <act_tag>inform(menu=cheese_cake)</act_tag>
+    </user>
+  </turn>
+  <turn idx="2" state="">
+    <system start="68.36" end="76.92">
+      <transcript>치즈 케이크를 요리하겠습니다.</transcript>
+      <system_response type="rsp">
+        <domain>Cook</domain>
+        <dialogue_act />
+        <speech_act />
+        <predicator />
+        <args />
+      </system_response>
+      <act_tag>recipe_start(menu=cheese_cake)</act_tag>
+    </system>
+  </turn>
+  <turn idx="3" state="">
+    <system start="96.60" end="96.60">
+      <transcript>크림치즈를 상온에 두어 부드러운 상태가 되도록 한 뒤 거품기를 이용하여 잘 풀어줍니다. 달걀도 미리 풀어둡니다.</transcript>
+      <system_response type="rsp">
+        <domain>Cook</domain>
+        <dialogue_act />
+        <speech_act />
+        <predicator />
+        <args />
+      </system_response>
+      <act_tag>example(recipe=15-1)</act_tag>
+    </system>
+    <user start="153.94" end="157.01" audio_file="20141015_093128_김슬기_F29\김슬기_003_300677.wav" understanding="full">
+      <recognized />
+      <hypothesis />
+      <transcript>다음은</transcript>
+      <user_intention>
+        <speech_act />
+        <predicator />
+        <args />
+      </user_intention>
+      <act_tag>next()</act_tag>
+    </user>
+  </turn>
+  <turn idx="4" state="">
+    <system start="116.35" end="116.35">
+      <transcript>1의 크림치즈에 설탕과 달걀을 조금씩 나누어 넣어가며 거품기로 섞습니다.</transcript>
+      <system_response type="rsp">
+        <domain>Cook</domain>
+        <dialogue_act />
+        <speech_act />
+        <predicator />
+        <args />
+      </system_response>
+      <act_tag>example(recipe=15-2)</act_tag>
+    </system>
+    <user start="208.12" end="211.26" audio_file="20141015_093128_김슬기_F29\김슬기_004_354858.wav" understanding="full">
+      <recognized />
+      <hypothesis />
+      <transcript>다음</transcript>
+      <user_intention>
+        <speech_act />
+        <predicator />
+        <args />
+      </user_intention>
+      <act_tag>next()</act_tag>
+    </user>
+  </turn>
+  <turn idx="5" state="">
+    <system start="218.96" end="218.96">
+      <transcript>부드럽게 풀린 반죽에 박력분과 생크림을 넣고 주걱으로 고루 섞습니다.</transcript>
+      <system_response type="rsp">
+        <domain>Cook</domain>
+        <dialogue_act />
+        <speech_act />
+        <predicator />
+        <args />
+      </system_response>
+      <act_tag>example(recipe=15-3)</act_tag>
+    </system>
+    <user start="249.67" end="252.49" audio_file="20141015_093128_김슬기_F29\김슬기_005_396406.wav" understanding="full">
+      <recognized />
+      <hypothesis />
+      <transcript>응 다음은</transcript>
+      <user_intention>
+        <speech_act />
+        <predicator />
+        <args />
+      </user_intention>
+      <act_tag>affirm(),next()</act_tag>
+    </user>
+  </turn>
+  <turn idx="6" state="">
+    <system start="260.33" end="260.33">
+      <transcript>케이크 틀에 유산지를 깔고 바닥에 카스텔라 시트를 놓은 다음 3의 반죽을 붓습니다.</transcript>
+      <system_response type="rsp">
+        <domain>Cook</domain>
+        <dialogue_act />
+        <speech_act />
+        <predicator />
+        <args />
+      </system_response>
+      <act_tag>example(recipe=15-4)</act_tag>
+    </system>
+    <user start="279.95" end="282.49" audio_file="20141015_093128_김슬기_F29\김슬기_006_426683.wav" understanding="full">
+      <recognized />
+      <hypothesis />
+      <transcript>다음</transcript>
+      <user_intention>
+        <speech_act />
+        <predicator />
+        <args />
+      </user_intention>
+      <act_tag>next()</act_tag>
+    </user>
+  </turn>
+  <turn idx="7" state="">
+    <system start="285.13" end="285.13">
+      <transcript>법랑접시에 석쇠를 놓고 케이크틀을 올린 후 1단에 넣고 자동요리오븐에서 치즈케이크를 선택한 후 구워냅니다. 이를 위한 오븐 셋팅을 하시겠습니까?</transcript>
+      <system_response type="rsp">
+        <domain>Cook</domain>
+        <dialogue_act />
+        <speech_act />
+        <predicator />
+        <args />
+      </system_response>
+      <act_tag>example(recipe=15-5)</act_tag>
+    </system>
+    <user start="289.89" end="292.73" audio_file="20141015_093128_김슬기_F29\김슬기_007_436620.wav" understanding="full">
+      <recognized />
+      <hypothesis />
+      <transcript>응 셋팅해야지</transcript>
+      <user_intention>
+        <speech_act />
+        <predicator />
+        <args />
+      </user_intention>
+      <act_tag>affirm(),heat_start()</act_tag>
+    </user>
+  </turn>
+  <turn idx="8" state="">
+    <system start="290.08" end="290.08">
+      <transcript>오븐설정이 완료되었습니다.</transcript>
+      <system_response type="rsp">
+        <domain>Cook</domain>
+        <dialogue_act />
+        <speech_act />
+        <predicator />
+        <args />
+      </system_response>
+      <act_tag>setting_ok()</act_tag>
+    </system>
+  </turn>
+  <turn idx="9" state="">
+    <system start="299.03" end="299.03">
+      <transcript>가열이 완료되었습니다. 이후 단계를 진행하시겠습니까?</transcript>
+      <system_response type="qry">
+        <domain>Cook</domain>
+        <dialogue_act />
+        <speech_act />
+        <predicator />
+        <args />
+      </system_response>
+      <act_tag>heat_end()</act_tag>
+    </system>
+    <user start="307.87" end="310.82" audio_file="20141015_093128_김슬기_F29\김슬기_009_454601.wav" understanding="full">
+      <recognized />
+      <hypothesis />
+      <transcript>응</transcript>
+      <user_intention>
+        <speech_act />
+        <predicator />
+        <args />
+      </user_intention>
+      <act_tag>affirm()</act_tag>
+    </user>
+  </turn>
+  <turn idx="10" state="">
+    <system start="302.71" end="302.72">
+      <transcript>요리가 완료되었습니다. 프로그램을 종료합니다.</transcript>
+      <system_response type="rsp">
+        <domain>Cook</domain>
+        <dialogue_act />
+        <speech_act />
+        <predicator />
+        <args />
+      </system_response>
+      <act_tag>end()</act_tag>
+    </system>
+  </turn>
+</talksori_log>
