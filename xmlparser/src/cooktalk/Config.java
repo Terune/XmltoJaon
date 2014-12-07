@@ -18,24 +18,28 @@ public class Config {
 	public static void setupConfig() {
 		
 		XmlParser config = new XmlParser("source/20141015_093128_김슬기_F29_log.xml");
-		String[] s = config.getText("turn","act_tag");
+		//String[] s = config.getText("turn","act_tag");
 		Element root = config.getXmlRoot();
 		Element turnin= config.getXmlElement(root,"talksori_log");
 		
 		
 		//turnlist = config.getElement("turn");
-		if (s != null) {
-			serverIp = s[0];
-		}
+		//if (s != null) {
+			//serverIp = s[0];
+	//	}
 	//	Element result= turnin("act_tag");
 		//System.out.println(s[1]);
 		List<Element> itemList = turnin.getChildren("turn");
 		
 		for(Element turns : itemList){
-			Element turnin2= turns.getChild("system");
+			Element turnin2= turns.getChild("user");
+			if(turnin2!=null)
+			{
 		//	Element turnin3= turnin2.getChild("system");
 			//Element turnin4= turnin3.getChild("act_tag");
-			System.out.println("결과:"+turnin2.getChildText("act_tag"));
+				String result = turnin2.getChildText("act_tag");
+				System.out.println("턴:"+turns.getAttributeValue("idx")+"결과:"+result);
+			}
 		}
 			
 		//System.out.println(turnin);
