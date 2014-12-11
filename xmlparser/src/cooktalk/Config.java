@@ -17,10 +17,42 @@ public class Config {
 	//public static String serverIp = "http://localhost:8080";
 	//public static String serverIp = "http://163.239.27.42:8080";
 	//FileInputStream fis = null;
-	static String filename="source/20141015_093128_김슬기_F29_log.xml";
-	File file = new File(filename);
-	public static void setupConfig() {
+	
+	
+	public static void runConfig(){
+		File files[];
 		
+		files=set_filename();
+		
+		String Sessions="";
+		for(File runfile : files){
+			Sessions+=setupConfig(runfile.getName())+"\n";
+		}
+		
+		try {
+			FileWriter sessionFile= new FileWriter("result/con_log.sessions");
+			
+			sessionFile.write(Sessions);
+			sessionFile.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	//static String filename="source/20141015_093128_김슬기_F29_log.xml";
+	//File file = new File(filename);
+	
+	static File[] set_filename(){
+		File dir = new File("source/");
+		File fileList[] = dir.listFiles();
+		return fileList;
+	}
+	
+	public static String setupConfig(String filename) {
+		
+		filename= "source/"+filename;
 		XmlParser config = new XmlParser(filename);
 		//String[] s = config.getText("turn","act_tag");
 		Element root = config.getXmlRoot();
@@ -209,10 +241,22 @@ public class Config {
 		obj.put("turns", turns_items);
 		System.out.println("object:"+obj);
 		//System.out.println(turnin);
-		
+		String mkFolder = "result/"+filenamecov;
 		try{
-			FileWriter out_file= new FileWriter("result/"+filenamecov+".json");
-		
+			
+			
+			File desti = new File(mkFolder);
+			if(!desti.exists())
+			{
+				desti.mkdir();
+			}
+			FileWriter out_file= new FileWriter("result/"+filenamecov+"/log.json");
+			FileWriter out_file2= new FileWriter("result/"+filenamecov+"/dstc.log.json");
+			
+			out_file2.write(obj.toString());
+			out_file2.flush();
+			out_file2.close();
+			
 			out_file.write(obj.toString());
 			out_file.flush();
 			out_file.close();
@@ -220,5 +264,9 @@ public class Config {
 		} catch(IOException e){
 			e.printStackTrace();
 		}
+		
+		return mkFolder;
+		
+		
 	}
 }
