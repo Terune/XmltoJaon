@@ -64,6 +64,7 @@ public class Config {
 		String filenamecov;
 		filenamecov =filename.replace(".xml", "");
 		filenamecov = filenamecov.replace("source/", "");
+		filenamecov = filenamecov.substring(0, 15);
 		
 		obj.put("session-id", filenamecov);
 		//turnlist = config.getElement("turn");
@@ -168,9 +169,13 @@ public class Config {
 			slot=null;
 			if(useritem!=null)
 			{
-				JSONArray dialog_act_items = new JSONArray();
+				JSONObject slu_hyps = new JSONObject();
+				JSONArray slu_hyps_items = new JSONArray();
+				JSONArray slu_hyp_items = new JSONArray();
+				JSONObject live = new JSONObject();
 				JSONObject slots = new JSONObject();
 				JSONArray slotvalue = new JSONArray();
+				JSONArray slot_items = new JSONArray();
 		//	Element turnin3= turnin2.getChild("system");
 			//Element turnin4= turnin3.getChild("act_tag");
 				String user_result = useritem.getChildText("act_tag");
@@ -190,11 +195,20 @@ public class Config {
 					
 					slotvalue.add(slot_name);
 					slotvalue.add(slot_value);
-					slots.put("slots", slotvalue);
+					
+					slot_items.add(slotvalue);
+					
+					slots.put("slots", slot_items);
 					slots.put("act", user_result);
 					
-					dialog_act_items.add(slots);
-					input_obj.put("dialog_acts", dialog_act_items);
+					slu_hyp_items.add(slots);
+					slu_hyps.put("slu-hyp", slu_hyp_items);
+					slu_hyps.put("score", 1);
+					
+					slu_hyps_items.add(slu_hyps);
+					
+					live.put("slu-hyps", slu_hyps_items);
+					input_obj.put("live", live);
 					
 					System.out.println("act:"+user_result);
 					System.out.println("슬롯이름:"+slot_name+"\t슬롯값:"+slot_value);
@@ -212,21 +226,40 @@ public class Config {
 						if(double_act_2.length()>1){
 							System.out.println("act1:"+double_act_1+" act2:"+double_act_2);
 							slots.put("act",double_act_1);
-							dialog_act_items.add(slots);
-							input_obj.put("dialog_acts", dialog_act_items);
+							slu_hyp_items.add(slots);
+							slu_hyps.put("slu-hyp", slu_hyp_items);
+							slu_hyps.put("score", 1);
+							
+							slu_hyps_items.add(slu_hyps);
+							
+							live.put("slu-hyps", slu_hyps_items);
+							input_obj.put("live", live);
+							
 							slots.clear();
 							
 							slots.put("slots", slotvalue);
 							slots.put("act",double_act_2);
-							dialog_act_items.add(slots);
-							input_obj.put("dialog_acts", dialog_act_items);
+							slu_hyp_items.add(slots);
+							slu_hyps.put("slu-hyp", slu_hyp_items);
+							slu_hyps.put("score", 1);
+							
+							slu_hyps_items.add(slu_hyps);
+							
+							live.put("slu-hyps", slu_hyps_items);
+							input_obj.put("live", live);
 						}
 					}
 					else{
 						System.out.println("act:"+user_result);
 						slots.put("act",user_result);
-						dialog_act_items.add(slots);
-						input_obj.put("dialog_acts", dialog_act_items);
+						slu_hyp_items.add(slots);
+						slu_hyps.put("slu-hyp", slu_hyp_items);
+						slu_hyps.put("score", 1);
+						
+						slu_hyps_items.add(slu_hyps);
+						
+						live.put("slu-hyps", slu_hyps_items);
+						input_obj.put("live", live);
 					}
 				}
 			}		
