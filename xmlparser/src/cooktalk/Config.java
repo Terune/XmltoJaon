@@ -26,7 +26,9 @@ public class Config {
 		
 		String Sessions="";
 		for(File runfile : files){
-			Sessions+=setupConfig(runfile.getName())+"\n";
+			if(!runfile.getName().startsWith(".")){
+				Sessions+=setupConfig(runfile.getName())+"\n";
+			}
 		}
 		
 		try {
@@ -105,64 +107,96 @@ public class Config {
 				JSONObject slots = new JSONObject();
 				JSONArray slotvalue = new JSONArray();
 				
-				String system_result = systemitem.getChildText("act_tag");
+				String all_system_result = systemitem.getChildText("act_tag");
 				
 				System.out.println("턴:"+turns.getAttributeValue("idx"));
 				//System.out.println("턴:"+turns.getAttributeValue("idx")+"결과:"+system_result);
-				int io_slot = system_result.indexOf(slot_start);
-				slot=system_result.substring(io_slot+1,system_result.substring(io_slot).indexOf(")")+io_slot);
-				
 			
+				String[] system_results = null;
 				
-				if(slot.length()>1){
-					//슬롯용 오브젝트 생성
+				//if(all_system_result.matches(".*,.*")){
+					//System.out.println("now");
+				//}
+			//	{
+					system_results= all_system_result.split(",");
+				//}
+				//else
+				//{
+					//system_results[0] = all_system_result;
+			//	}
+				
+				for(String system_result : system_results)
+				{
+					system_result.trim();
+					int io_slot = system_result.indexOf(slot_start);
+					//if(system_result.substring(io_slot).indexOf(")")<0||io_slot<0)
+					//{
+						//System.out.println("error!");
+				//	}
+					slot=system_result.substring(io_slot+1,system_result.substring(io_slot).indexOf(")")+io_slot);
 					
+				
 					
-					
-					String slot_value,slot_name;
-					int io_slot_value= slot.indexOf(equal);
-					
-					slot_value=slot.substring(io_slot_value+1);
-					slot_name=slot.substring(0,io_slot_value);
-					system_result=system_result.substring(0,io_slot);
-					System.out.println("act:"+system_result);
-					System.out.println("슬롯이름:"+slot_name+"\t슬롯값:"+slot_value);
-					
-					slotvalue.add(slot_name);
-					slotvalue.add(slot_value);
-					slots.put("slots", slotvalue);
-					slots.put("act", system_result);
-					
-					dialog_act_items.add(slots);
-					output_obj.put("dialog_acts", dialog_act_items);
-				}
-				else{
-					system_result=system_result.replace("()", "");
-					
-					slots.put("slots",slotvalue);
-					int io_double_act = system_result.indexOf(",");
-					if(io_double_act>0)
-					{
-						String double_act_1 = system_result.substring(0,io_double_act);
-						String double_act_2 = system_result.substring(io_double_act+1);
-						if(double_act_2.length()>1){
-							System.out.println("act1:"+double_act_1+" act2:"+double_act_2);
-							slots.put("act",double_act_1);
-							dialog_act_items.add(slots);
-							output_obj.put("dialog_acts", dialog_act_items);
-							slots.clear();
-							
-							slots.put("slots", slotvalue);
-							slots.put("act",double_act_2);
+					if(slot.length()>1){
+						//슬롯용 오브젝트 생성
+						
+						
+						
+						String slot_value,slot_name;
+						int io_slot_value= slot.indexOf(equal);
+						
+						//슬롯 이름, 값이 각각 기록되는 쌍인 경
+						if(io_slot_value>0)
+						{
+							slot_value=slot.substring(io_slot_value+1);
+							slot_name=slot.substring(0,io_slot_value);
+						}
+						//request(menu)와 같이 슬롯 이름이 따로 표시되지 않는 경우
+						else
+						{
+							slot_value=slot;
+							slot_name="slot";
+						}
+						system_result=system_result.substring(0,io_slot);
+						System.out.println("act:"+system_result);
+						System.out.println("슬롯이름:"+slot_name+"\t슬롯값:"+slot_value);
+						
+						slotvalue.add(slot_name);
+						slotvalue.add(slot_value);
+						slots.put("slots", slotvalue);
+						slots.put("act", system_result);
+						
+						dialog_act_items.add(slots);
+						output_obj.put("dialog_acts", dialog_act_items);
+					}
+					else{
+						system_result=system_result.replace("()", "");
+						
+						slots.put("slots",slotvalue);
+						int io_double_act = system_result.indexOf(",");
+						if(io_double_act>0)
+						{
+							String double_act_1 = system_result.substring(0,io_double_act);
+							String double_act_2 = system_result.substring(io_double_act+1);
+							if(double_act_2.length()>1){
+								System.out.println("act1:"+double_act_1+" act2:"+double_act_2);
+								slots.put("act",double_act_1);
+								dialog_act_items.add(slots);
+								output_obj.put("dialog_acts", dialog_act_items);
+								slots.clear();
+								
+								slots.put("slots", slotvalue);
+								slots.put("act",double_act_2);
+								dialog_act_items.add(slots);
+								output_obj.put("dialog_acts", dialog_act_items);
+							}
+						}
+						else{
+							System.out.println("act:"+system_result);
+							slots.put("act",system_result);
 							dialog_act_items.add(slots);
 							output_obj.put("dialog_acts", dialog_act_items);
 						}
-					}
-					else{
-						System.out.println("act:"+system_result);
-						slots.put("act",system_result);
-						dialog_act_items.add(slots);
-						output_obj.put("dialog_acts", dialog_act_items);
 					}
 				}
 			}
