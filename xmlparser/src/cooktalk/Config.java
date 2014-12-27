@@ -1,14 +1,22 @@
 package cooktalk;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 //import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Vector;
 
 import org.jdom2.Element;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //import org.json.simple.JSONValue;
 //import org.json.simple.JSONArray;
 
@@ -68,6 +76,8 @@ public class Config {
 		filenamecov = filenamecov.replace("source/", "");
 		filenamecov = filenamecov.substring(0, 15);
 		
+		Vector<String> newContent= new Vector<String>(); 
+		
 		obj.put("session-id", filenamecov);
 		//turnlist = config.getElement("turn");
 		//if (s != null) {
@@ -107,7 +117,12 @@ public class Config {
 				JSONObject slots = new JSONObject();
 				JSONArray slotvalue = new JSONArray();
 				
+				String transcript = systemitem.getChildText("transcript");
 				String all_system_result = systemitem.getChildText("act_tag");
+				
+				newContent.addElement("systemAct");
+				newContent.addElement(transcript);
+				newContent.addElement(all_system_result);
 				
 				System.out.println("턴:"+turns.getAttributeValue("idx"));
 				//System.out.println("턴:"+turns.getAttributeValue("idx")+"결과:"+system_result);
@@ -216,6 +231,12 @@ public class Config {
 				
 				//String[] slot = user_result.split("(");
 				//System.out.println(slot[0]);
+				String transcript = useritem.getChildText("transcript");
+				
+				newContent.addElement("userAct");
+				newContent.addElement(transcript);
+				newContent.addElement(user_result);
+				
 				
 				System.out.println("턴:"+turns.getAttributeValue("idx"));
 				int io_slot = user_result.indexOf(slot_start);
@@ -332,8 +353,80 @@ public class Config {
 			e.printStackTrace();
 		}
 		
+		// 새로운 엑셀 워크 시트 생성
+		XSSFWorkbook wb = new XSSFWorkbook();
+		Sheet sheet = wb.createSheet();
+
+		// 해당 시트의 행별로 결과값 입력
+
+		Row namerow = sheet.createRow(0);
+
+		Cell c1 = namerow.createCell(0);
+		c1.setCellValue("System Act");
+		Cell c2 = namerow.createCell(1);
+		c2.setCellValue("user Act");
+
+		int line=0;
+		for (int rownum = 1; rownum < newContent.size()+1 && line < newContent.size(); rownum=rownum+2) {
+			Row r1 = sheet.createRow(rownum);
+			Row r2 = sheet.createRow(rownum+1);
+			// 열별로 나눔 구분자 '\t'
+			//String[] str = newContent.get(rownum).split("	");
+			if(newContent.elementAt(line)=="systemAct")
+			{
+				Cell tran=r1.createCell(0);
+				//tran.setCellStyle(arg0)
+				tran.setCellValue(newContent.elementAt(++line));
+				
+				Cell tag=r2.createCell(0);
+				tag.setCellValue(newContent.elementAt(++line));
+				line++;
+				/*for (int cellnum = 0; cellnum < str.length; cellnum++) {
+					Cell c = r.createCell(cellnum);
+				
+					c.setCellValue(str[cellnum]);
+				}*/
+				
+			}
+			else if(newContent.elementAt(line)=="userAct")
+			{
+				Cell tran=r1.createCell(1);
+				tran.setCellValue(newContent.elementAt(++line));
+				
+				Cell tag=r2.createCell(1);
+				tag.setCellValue(newContent.elementAt(++line));
+				
+				line++;
+			}
+			for(int i=0; i<3; i++){
+				 sheet.autoSizeColumn((short)i);
+				 sheet.setColumnWidth(i, (sheet.getColumnWidth(i)));  // 윗줄만으로는 컬럼의 width 가 부족하여 더 늘려야 함.
+				}
+			
+		}
+
+		// 해당 워크시트를 저장함.
+		FileOutputStream stream = null;
+		try {
+			stream = new FileOutputStream("result/loglist/"+filenamecov+".xlsx");
+			wb.write(stream);
+			stream.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		
+		try {
+			wb.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return mkFolder;
 		
-		
 	}
+
 }
