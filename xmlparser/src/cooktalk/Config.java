@@ -1,24 +1,31 @@
 package cooktalk;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 //import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 import org.jdom2.Element;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+//import org.apache.poi.hwpf.HWPFDocument;
+//import org.apache.poi.hwpf.usermodel.Range;
+//import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+//import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //import org.json.simple.JSONValue;
 //import org.json.simple.JSONArray;
+
 
 public class Config {
 	// public static String serverIp = "http://localhost:8080";
@@ -62,6 +69,7 @@ public class Config {
 
 		filename = "source/" + filename;
 		XmlParser config = new XmlParser(filename);
+		
 		// String[] s = config.getText("turn","act_tag");
 		Element root = config.getXmlRoot();
 		Element turnin = config.getXmlElement(root, "talksori_log");
@@ -209,6 +217,7 @@ public class Config {
 							slots.put("act", system_result);
 							dialog_act_items.add(slots);
 							output_obj.put("dialog_acts", dialog_act_items);
+		
 						}
 					}
 				}
@@ -379,8 +388,13 @@ public class Config {
 		XSSFWorkbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet();
 
+		
+		//String[] results = null;
+		//fs.main(null);
 		// 해당 시트의 행별로 결과값 입력
-
+		//File outfile=new File("result/loglist/"+filenamecov+".docx");
+		List<String> list = new ArrayList<String>();
+		list.add("result/loglist/"+filenamecov+".docx");
 		Row namerow = sheet.createRow(0);
 
 		Cell c1 = namerow.createCell(0);
@@ -399,9 +413,10 @@ public class Config {
 				Cell tran = r1.createCell(0);
 				// tran.setCellStyle(arg0)
 				tran.setCellValue(newContent.elementAt(++line));
-
+				list.add("System:"+newContent.elementAt(line));
 				Cell tag = r2.createCell(0);
 				tag.setCellValue(newContent.elementAt(++line));
+				list.add("Act:"+newContent.elementAt(line));
 				line++;
 				/*
 				 * for (int cellnum = 0; cellnum < str.length; cellnum++) { Cell
@@ -413,10 +428,11 @@ public class Config {
 			} else if (newContent.elementAt(line) == "userAct") {
 				Cell tran = r1.createCell(1);
 				tran.setCellValue(newContent.elementAt(++line));
-
+				list.add("User:"+newContent.elementAt(line));
+				
 				Cell tag = r2.createCell(1);
 				tag.setCellValue(newContent.elementAt(++line));
-
+				list.add("Act: "+newContent.elementAt(line));
 				line++;
 			}
 			for (int i = 0; i < 3; i++) {
@@ -428,7 +444,58 @@ public class Config {
 			}
 
 		}
-
+		String results[]={};
+		results=list.toArray(new String[list.size()]);
+		WordFileManager fs=new WordFileManager();
+		fs.main(results);		
+		
+		//fs.initWordFile()
+		//File outfile=new File("result/loglist/"+filenamecov+".doc");
+		//if(!outfile.exists())
+		//{
+			
+	//	}
+		
+		/*try {
+			fs.initWordFile(outfile);
+			//fs.initWordFile(new File("doc2.doc"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		fs.writeWordFile("test",outfile);
+		*/
+		/*POIFSFileSystem fs = new POIFSFileSystem();
+		HWPFDocument doc=null;
+		try {
+			doc = new HWPFDocument(fs);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Range range= doc.getRange();
+		int wordline=0;
+		range.insertBefore(newContent.elementAt(wordline));
+		try{
+			FileOutputStream fos=new FileOutputStream("result/loglist/"+filenamecov+".word");
+			
+			try {
+				doc.write(fos);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				fos.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		*/
+		
 		// 해당 워크시트를 저장함.
 		FileOutputStream stream = null;
 		try {
