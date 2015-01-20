@@ -31,12 +31,13 @@ public class Config {
 	// public static String serverIp = "http://localhost:8080";
 	// public static String serverIp = "http://163.239.27.42:8080";
 	// FileInputStream fis = null;
-
+	private static List<String> UserActs = new ArrayList<String>();
+	
 	public static void runConfig() {
 		File files[];
 
 		files = set_filename();
-
+		
 		String Sessions = "";
 		for (File runfile : files) {
 			if (!runfile.getName().startsWith(".")) {
@@ -53,6 +54,10 @@ public class Config {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		String results[]={};
+		results=UserActs.toArray(new String[UserActs.size()]);
+		//TxtPrint txtmaker= new TxtPrint();
+		TxtPrint.main(results);
 
 	}
 
@@ -429,10 +434,12 @@ public class Config {
 				Cell tran = r1.createCell(1);
 				tran.setCellValue(newContent.elementAt(++line));
 				list.add("User:"+newContent.elementAt(line));
+				UserActs.add(newContent.elementAt(line));
 				
 				Cell tag = r2.createCell(1);
 				tag.setCellValue(newContent.elementAt(++line));
 				list.add("Act: "+newContent.elementAt(line));
+				UserActs.add(newContent.elementAt(line));
 				line++;
 			}
 			for (int i = 0; i < 3; i++) {
@@ -446,8 +453,9 @@ public class Config {
 		}
 		String results[]={};
 		results=list.toArray(new String[list.size()]);
-		WordFileManager fs=new WordFileManager();
-		fs.main(results);		
+		//WordFileManager fs=new WordFileManager();
+		WordFileManager.main(results);
+		
 		
 		//fs.initWordFile()
 		//File outfile=new File("result/loglist/"+filenamecov+".doc");
